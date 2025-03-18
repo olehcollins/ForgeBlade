@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "k3bybOZyBC8=",
+  "dgSpecHash": "fxm/djRDE80=",
   "success": true,
-  "projectFilePath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Application/Application.csproj",
+  "projectFilePath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Application/Application.csproj",
   "expectedPackageFiles": [
     "/Users/olehcollins/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/Users/olehcollins/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",

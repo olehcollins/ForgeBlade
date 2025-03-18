@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hZrmHDrbRfg=",
+  "dgSpecHash": "GTsKqt4iD1s=",
   "success": true,
-  "projectFilePath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj",
+  "projectFilePath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj",
   "expectedPackageFiles": [
     "/Users/olehcollins/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
   ],

@@ -65,11 +65,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj",
+      "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj",
       "projectName": "Presentation",
-      "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj",
+      "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj",
       "packagesPath": "/Users/olehcollins/.nuget/packages/",
-      "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/obj/",
+      "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/olehcollins/.nuget/NuGet/NuGet.Config"

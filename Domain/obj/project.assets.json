@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/Domain.csproj",
+      "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/Domain.csproj",
+      "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/Domain.csproj",
       "packagesPath": "/Users/olehcollins/.nuget/packages/",
-      "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/obj/",
+      "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/olehcollins/.nuget/NuGet/NuGet.Config"

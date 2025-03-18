@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/WebAPI/WebAPI.csproj": {}
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/WebAPI.csproj": {}
   },
   "projects": {
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Application/Application.csproj": {
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Application/Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Application/Application.csproj",
+        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Application/Application.csproj",
         "projectName": "Application",
-        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Application/Application.csproj",
+        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Application/Application.csproj",
         "packagesPath": "/Users/olehcollins/.nuget/packages/",
-        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Application/obj/",
+        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/olehcollins/.nuget/NuGet/NuGet.Config"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/Domain.csproj": {
-                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/Domain.csproj"
+              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/Domain.csproj": {
+                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/Domain.csproj"
               }
             }
           }
@@ -77,14 +77,14 @@
         }
       }
     },
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/Domain.csproj": {
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/Domain.csproj",
+        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/Domain.csproj",
+        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/Domain.csproj",
         "packagesPath": "/Users/olehcollins/.nuget/packages/",
-        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Domain/obj/",
+        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/olehcollins/.nuget/NuGet/NuGet.Config"
@@ -136,14 +136,14 @@
         }
       }
     },
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj": {
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj",
+        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj",
+        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj",
         "packagesPath": "/Users/olehcollins/.nuget/packages/",
-        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/obj/",
+        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/olehcollins/.nuget/NuGet/NuGet.Config"
@@ -201,14 +201,14 @@
         }
       }
     },
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj": {
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj",
+        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj",
         "projectName": "Presentation",
-        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj",
+        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj",
         "packagesPath": "/Users/olehcollins/.nuget/packages/",
-        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/obj/",
+        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/olehcollins/.nuget/NuGet/NuGet.Config"
@@ -266,14 +266,14 @@
         }
       }
     },
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/WebAPI/WebAPI.csproj": {
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/WebAPI/WebAPI.csproj",
+        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/WebAPI/WebAPI.csproj",
+        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/WebAPI.csproj",
         "packagesPath": "/Users/olehcollins/.nuget/packages/",
-        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/WebAPI/obj/",
+        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/olehcollins/.nuget/NuGet/NuGet.Config"
@@ -288,14 +288,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Application/Application.csproj": {
-                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Application/Application.csproj"
+              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Application/Application.csproj": {
+                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Application/Application.csproj"
               },
-              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj": {
-                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj"
+              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj": {
+                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj"
               },
-              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj": {
-                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Presentation/Presentation.csproj"
+              "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj": {
+                "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Presentation/Presentation.csproj"
               }
             }
           }

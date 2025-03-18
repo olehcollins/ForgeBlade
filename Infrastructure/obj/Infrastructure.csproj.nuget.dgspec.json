@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj": {}
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj": {}
   },
   "projects": {
-    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj": {
+    "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj",
+        "projectUniqueName": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/Infrastructure.csproj",
+        "projectPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/Infrastructure.csproj",
         "packagesPath": "/Users/olehcollins/.nuget/packages/",
-        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/server/Infrastructure/obj/",
+        "outputPath": "/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/olehcollins/.nuget/NuGet/NuGet.Config"
