@@ -71,7 +71,7 @@ var app = builder.Build();
 app.UseExceptionHandler(_ => { }); // Exception Handler
 app.UseHttpsRedirection(); // Enforce HTTPS early in the pipeline
 app.UseSerilogDocumentation(app.Environment); // Log every request/response first
-// app.UseSwaggerDocumentation(app.Environment); // Register Swagger documentation routes
+app.UseSwaggerDocumentation(app.Environment); // Register Swagger documentation routes
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStatusCodePages(); // Use status code pages; update empty API responses
