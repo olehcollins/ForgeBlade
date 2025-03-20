@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.OpenApi.Models;
 
 namespace WebAPI;
 
+[ExcludeFromCodeCoverage]
 public static class SwaggerExtensions
 {
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
@@ -16,6 +18,7 @@ public static class SwaggerExtensions
                 Description = "API project for learning and experimenting"
             });
         });
+
         return services;
     }
 
