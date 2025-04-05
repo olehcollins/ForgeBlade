@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Application.Models;
 
-public sealed class RegisterModel
+public sealed class RegisterEmployeeModel
 {
     [Required(ErrorMessage = "Role is required.")]
     [RegularExpression(@"^(Admin|Owner|Manager|Worker)$", ErrorMessage = "Invalid role. Allowed roles: Admin, Owner, Manager, Worker.")]
@@ -43,10 +43,24 @@ public sealed class RegisterModel
     [StringLength(250, ErrorMessage = "Address cannot exceed 250 characters.")]
     public string Address { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Fullname is required.")]
-    [StringLength(50, MinimumLength = 2, ErrorMessage = "Fullname must be between 2 and 50 characters.")]
+    [Required(ErrorMessage = "Gender is required.")]
+    [RegularExpression(@"^(Male|Female)$", ErrorMessage = "Invalid sex. Allowed sexes: Male, Female.")]
+    public string Sex { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Ethnicity is required.")]
+    [StringLength(50, MinimumLength = 2, ErrorMessage = "Value must be between 2 and 50 characters.")]
     [ValidName]
-    public string EmergencyContactName { get; set; } = string.Empty;
+    public string Ethnicity { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "A name is required.")]
+    [StringLength(50, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 50 characters.")]
+    [ValidName]
+    public string EmergencyContactFirstName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "A name is required.")]
+    [StringLength(50, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 50 characters.")]
+    [ValidName]
+    public string EmergencyContactLastName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Phone number is required.")]
     [Phone]

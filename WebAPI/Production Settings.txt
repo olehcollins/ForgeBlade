@@ -22,3 +22,11 @@
       }
     ],
   }
+
+  *.DotSettings.user
+
+  # Local user-specific files
+  *.dbmdl
+  *.dbproj.schemaview
+
+  server.sln.DotSettings.user

@@ -9,7 +9,6 @@ public sealed class CustomHealthChecks(IConfiguration configuration) : IHealthCh
     private readonly string? _connectionString
         = configuration.GetConnectionString("DefaultConnection");
 
-
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
         CancellationToken cancellationToken = new())
     {

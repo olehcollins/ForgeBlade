@@ -5,7 +5,7 @@ namespace Infrastructure.Persistence;
 
 public static class SeedData
 {
-    public static async Task SeedRolesAsync(RoleManager<ApplicationRole> roleManager)
+    public static async Task SeedRolesAsync(RoleManager<UserRole> roleManager)
     {
         string[] roleNames = ["Admin", "Owner", "Manager", "Worker"];
 
@@ -13,7 +13,7 @@ public static class SeedData
         {
             if (!await roleManager.RoleExistsAsync(role))
             {
-                await roleManager.CreateAsync(new ApplicationRole { Name = role });
+                await roleManager.CreateAsync(new UserRole { Name = role });
                 Console.WriteLine($"{role} created");
             }
             else Console.WriteLine($"{role} already exists");

@@ -300,3 +300,4 @@
 /Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/olehcollins/Documents - oleh’s Laptop/Programming/dotNET/ForgeBlade/WebAPI/bin/Debug/net9.0/Serilog.Sinks.Async.dll

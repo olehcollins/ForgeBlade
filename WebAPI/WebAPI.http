@@ -1,6 +1,6 @@
 @WebAPI_HostAddress = http://localhost:5035
 
-GET {{WebAPI_HostAddress}}/auth/getAllUsers
+GET {{WebAPI_HostAddress}}/user/register/admin
 Accept: application/json
 
 ###
