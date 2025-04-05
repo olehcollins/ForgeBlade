@@ -41,7 +41,7 @@ builder.Services.AddIdentity<UserIdentity, UserRole>()
     .AddDefaultTokenProviders();
 // Register your application services (from the Application layer) with their Infrastructure implementations
 builder.Services.AddScoped<IRegisterUsers, RegisterUsers>();
-builder.Services.AddJwtConfiguration(builder.Configuration);
+//builder.Services.AddJwtConfiguration(builder.Configuration);
 // Automatically retry failed requests up to 3 times, with increasing delays.
 var retryPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()

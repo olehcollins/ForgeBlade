@@ -19,4 +19,9 @@ public sealed class RegisterAdminModel
 
     [Required(ErrorMessage = "Last Name is required.")]
     public required string LastName { get; set; }
+
+    [Phone]
+    [Required(ErrorMessage = "Phone number is required.")]
+    public required string PhoneNumber { get; set; }
+
 }

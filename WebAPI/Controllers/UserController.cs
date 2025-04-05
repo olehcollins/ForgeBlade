@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using Application.Interfaces;
 using Application.Models;
 using Infrastructure.Identity;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,42 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(IRegisterUsers registerUsers, UserManager<UserIdentity> userManager) :
+public class UserController(IRegisterUsers registerUsers, UserManager<UserIdentity> userManager,
+    SignInManager<UserIdentity> signInManager) :
     ControllerBase
 {
+    [HttpPost("signin")]
+    [AllowAnonymous]
+    public async Task<IActionResult> SignIn([FromBody] LoginModel model)
+    {
+        // 1. Find the user by email.
+        var user = await userManager.FindByEmailAsync(model.Email);
+        if (user == null)
+        {
+            return Unauthorized("User does not exist");
+        }
+
+        // 2. Validate credentials.
+        var result = await signInManager.PasswordSignInAsync(
+            model.Email,
+            model.Password,
+            isPersistent: false,
+            lockoutOnFailure: false
+            );
+
+        if (!result.Succeeded)
+        {
+            return Unauthorized("Invalid credentials");
+        }
+
+        // 3. Generate a JWT token for the authenticated user.
+        //var token = tokenService.GenerateToken(user);
+
+        // 4. Return the token.
+        //return Ok(new { Token = token });
+        return Ok();
+    }
+
     [HttpPost("register/employee")]
     public async Task<IActionResult> CreateEmployeeAsync([FromBody] RegisterEmployeeModel model)
     {
@@ -29,21 +63,17 @@ public class UserController(IRegisterUsers registerUsers, UserManager<UserIdenti
     [HttpPost("register/admin")]
     public async Task<IActionResult> CreateAdminAsync([FromBody] RegisterAdminModel model)
     {
-        // if (!ModelState.IsValid) return BadRequest(ModelState);
-        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
         var result = await registerUsers.RegisterAdminAsync(model);
 
-        Console.WriteLine(string.Join(Environment.NewLine, result.Errors.Select(e => e.Description)));
-
-        var details = new Dictionary<string, object?>
-        {
-            { "details", result.Errors.Select(e => e.Description).ToArray() }
-        };
-
         return result.Succeeded ?
-            Ok("User registered successfully")
-            : ValidationProblem(extensions: details);
+            Ok($"User {model.Email} registered successfully")
+            : ValidationProblem(
+                extensions: new Dictionary<string, object?>
+                    {
+                        { "details", result.Errors.Select(e => e.Description).ToArray() }
+                    });
     }
 
     [AllowAnonymous]

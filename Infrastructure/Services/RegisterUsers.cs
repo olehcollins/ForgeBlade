@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Text;
 using Application.Interfaces;
 using Application.Models;
 using Infrastructure.Identity;
@@ -12,6 +14,7 @@ public sealed class RegisterUsers(UserManager<UserIdentity> userManager) : IRegi
     {
         var user = new UserIdentity
         {
+            UserName = model.Email,
             Email = model.Email,
             FirstName = model.FirstName,
             LastName = model.LastName,
@@ -22,26 +25,37 @@ public sealed class RegisterUsers(UserManager<UserIdentity> userManager) : IRegi
             Ethnicity = model.Ethnicity,
         };
 
-        await  userManager.AddToRoleAsync(user, model.Role);
-        return await userManager.CreateAsync(user, model.Password);
+        var result = await userManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded) result = await userManager.AddToRoleAsync(user, "Employee");
+
+        // Debug-time Assertion
+        Debug.Assert(result is IdentityResult, "result is not of type IdentityResult");
+        Debug.Assert(result != null, "result is null");
+        return result;
     }
 
     public async Task<IdentityResult> RegisterAdminAsync(RegisterAdminModel model)
     {
         var user = new UserIdentity
         {
+            UserName = model.Email,
             Email = model.Email,
             FirstName = model.FirstName,
             LastName = model.LastName,
+            PhoneNumber = model.PhoneNumber,
             Sex = "Male",
-            Ethnicity = "Black/African",
-            SecurityStamp = Guid.NewGuid().ToString()
+            Ethnicity = "Black/African"
         };
 
         var result = await userManager.CreateAsync(user, model.Password);
-        if (result.Succeeded) await userManager.AddToRoleAsync(user, "Admin");
+
+        if (result.Succeeded) result = await userManager.AddToRoleAsync(user, "Admin");
+
+        // Debug-time Assertion
+        Debug.Assert(result is IdentityResult, "result is not of type IdentityResult");
+        Debug.Assert(result != null, "result is null");
+
         return result;
     }
-
-
 }
