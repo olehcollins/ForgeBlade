@@ -35,7 +35,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .WithOne(u => u.User)
                 .HasForeignKey<UserPhoto>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-            entity.Property(u => u.isDeleted)
+            entity.Property(u => u.IsDeleted)
                 .HasDefaultValue(false);
             // Ensure the Email property is required and unique.
             entity.Property(u => u.Email)
@@ -50,7 +50,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .IsRequired();
             entity.Property(u => u.LastName)
                 .IsRequired();
-            entity.HasQueryFilter(u => !u.isDeleted);
+            entity.HasQueryFilter(u => !u.IsDeleted);
         } );
 
         // Configure the composite key for IdentityUserLogin<int>

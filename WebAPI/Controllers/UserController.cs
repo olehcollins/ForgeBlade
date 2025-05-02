@@ -2,18 +2,19 @@ using System.Globalization;
 using Application.Interfaces;
 using Application.Models;
 using Infrastructure.Identity;
+using Infrastructure.Queries;
 using Infrastructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class UserController(IRegisterUsers registerUsers, UserManager<UserIdentity> userManager,
-    SignInManager<UserIdentity> signInManager, IAccessTokenService tokenService) :
+    SignInManager<UserIdentity> signInManager, IAccessTokenService tokenService, ISender mediatorSender) :
     ControllerBase
 {
     [AllowAnonymous]
@@ -69,7 +70,7 @@ public class UserController(IRegisterUsers registerUsers, UserManager<UserIdenti
 
         var refreshTokenExpiration = await userManager.GetAuthenticationTokenAsync(user, "No Provider", "RefreshToken");
 
-        if (DateTime.ParseExact(refreshTokenExpiration ?? "no token", "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) < DateTime.Now)
+        if (refreshTokenExpiration is null || DateTime.ParseExact(refreshTokenExpiration, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) < DateTime.Now)
         {
             var tokens = new Dictionary<string, string?>
             {
@@ -87,23 +88,33 @@ public class UserController(IRegisterUsers registerUsers, UserManager<UserIdenti
                 newTokens));
     }
 
-    [HttpGet("users")]
+    [HttpGet("all-users")]
     public async Task<IActionResult> GetAllEmployeesAsync()
-    {
-        var users = await userManager.Users.ToArrayAsync();
-
-        return Ok(users);
-    }
+        => Ok(new ResponseModel<UserIdentity[]>(
+            $"Users found",
+            await mediatorSender.Send(new GetAllUsersQuery()))
+        );
 
     [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetUserProfile(string userId)
+    public async Task<IActionResult> GetUserById(string userId)
     {
-        var user = await userManager.FindByIdAsync(userId);
+        var user = await mediatorSender.Send(new GetUserByIdQuery(userId));
 
         return user is null
             ? NotFound(new ResponseModel<UserIdentity>($"User {userId} not found", null))
             : Ok(new ResponseModel<UserIdentity>($"User {userId} found", user));
     }
+
+    [HttpGet("user/by-email/{email}")]
+    public async Task<IActionResult> GetUserByEmail(string email)
+    {
+        var user = await mediatorSender.Send(new GetUserByEmailQuery(email));
+
+        return user is null
+            ? NotFound(new ResponseModel<UserIdentity>($"User {email} not found", null))
+            : Ok(new ResponseModel<UserIdentity>($"User {email} found", user));
+    }
+
 
     // [HttpPost("register/admin")]
     // public async Task<IActionResult> CreateAdminAsync([FromBody] RegisterAdminModel model)

@@ -1,3 +1,4 @@
+using System.Configuration;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +12,9 @@ public static class JwtConfiguration
     public static IServiceCollection AddJwtConfiguration(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var jwtSettings = configuration.GetSection("JWT");
+
+        var jwtSettings = configuration.GetSection("JWT")
+            ?? throw new ConfigurationErrorsException("JWT not found in appsettings.json");
         var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? string.Empty);
 
         services.AddAuthentication(options =>
@@ -27,8 +30,8 @@ public static class JwtConfiguration
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                ValidIssuer = jwtSettings["Issuer"],
-                ValidAudience = jwtSettings["Audience"],
+                ValidIssuer = jwtSettings["Issuer"] ?? string.Empty,
+                ValidAudience = jwtSettings["Audience"] ?? string.Empty,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };

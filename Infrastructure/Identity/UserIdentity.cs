@@ -21,6 +21,6 @@ public sealed class UserIdentity : IdentityUser<int>
     public ICollection<UserEmergencyContact>? EmergencyContacts { get; init; }
     public UserPhoto? Photo { get; init; }
     // Soft delete flag
-    public bool isDeleted { get; init; } = false;
+    public bool IsDeleted { get; init; } = false;
 
 }
