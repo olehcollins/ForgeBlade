@@ -1,24 +1,26 @@
 using Infrastructure.DataTables;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Identity;
 
-public class UserIdentity : IdentityUser<int>
+[ExcludeFromCodeCoverage]
+public sealed class UserIdentity : IdentityUser<int>
 {
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
-    public required string Sex { get; set; }
-    public required string Ethnicity { get; set; }
-    public int Age { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
+    public required string Sex { get; init; }
+    public required string Ethnicity { get; init; }
+    public int Age { get; init; }
+    public DateTime DateOfBirth { get; init; }
     public DateTime CreatedAt { get; } = DateTime.Now;
-    public DateTime LastModified { get; set; }
+    public DateTime LastModified { get; init; }
 
     // Navigation properties
-    public virtual UserAddress? Address { get; set; }
-    public virtual ICollection<UserEmergencyContact>? EmergencyContacts { get; set; }
-    public virtual UserPhoto? Photo { get; set; }
+    public UserAddress? Address { get; init; }
+    public ICollection<UserEmergencyContact>? EmergencyContacts { get; init; }
+    public UserPhoto? Photo { get; init; }
     // Soft delete flag
-    public bool isDeleted { get; set; } = false;
+    public bool isDeleted { get; init; } = false;
 
 }

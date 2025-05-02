@@ -1,15 +1,20 @@
 using Serilog;
+using System.Diagnostics.CodeAnalysis;
 
-namespace WebAPI;
+namespace WebAPI.Utils;
 
+[ExcludeFromCodeCoverage]
 public static class SerilogExtension
 {
     public static IHostBuilder AddSerilogDocumentation(this IHostBuilder host,
         IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
-            host.UseSerilog((context, configuration) =>
-                configuration.ReadFrom.Configuration(context.Configuration));
+            host.UseSerilog((context, services, configuration) =>
+                configuration.ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services)
+                    .Enrich.FromLogContext()
+                );
 
         return host;
     }
@@ -22,7 +27,7 @@ public static class SerilogExtension
             {
                 options.MessageTemplate
                     = "Handled HTTP {RequestMethod} {RequestPath} with Query {RequestQueryString} responded {StatusCode} in {Elapsed:0.0000} ms";
-                // If you want to enrich diagnostic context with more request info:
+                // If you want to enrich the diagnostic context with more request info:
                 options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
                 {
                     var queryString = httpContext.Request.QueryString.HasValue

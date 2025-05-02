@@ -1,6 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Utility;
 
+[ExcludeFromCodeCoverage]
 public static class IdentityHelpers
 {
     public static int CalculateAge(DateTime dateOfBirth)

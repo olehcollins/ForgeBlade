@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.OpenApi.Models;
 
-namespace WebAPI;
+namespace WebAPI.Utils;
 
 [ExcludeFromCodeCoverage]
 public static class SwaggerExtensions
@@ -25,15 +25,15 @@ public static class SwaggerExtensions
     public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app,
         IHostEnvironment env)
     {
-        if (!env.IsDevelopment()) return app;
-
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
+        if (env.IsDevelopment())
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sandbox API");
-            c.RoutePrefix = string.Empty; // Make Swagger UI the root page
-        });
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sandbox API");
+                c.RoutePrefix = string.Empty; // Make Swagger UI the root page
+            });
+        }
         return app;
     }
 }

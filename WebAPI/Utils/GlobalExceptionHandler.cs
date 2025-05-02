@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Diagnostics.CodeAnalysis;
 
-namespace WebAPI;
+namespace WebAPI.Utils;
 
+[ExcludeFromCodeCoverage]
 public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService)
     : IExceptionHandler
 {

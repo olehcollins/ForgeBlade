@@ -40,7 +40,7 @@ public sealed class RegisterEmployeeModel
     public DateTime DateOfBirth { get; set; }
 
     [Required(ErrorMessage = "Address is required.")]
-    [StringLength(250, ErrorMessage = "Address cannot exceed 250 characters.")]
+    [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters.")]
     public string Address { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Gender is required.")]

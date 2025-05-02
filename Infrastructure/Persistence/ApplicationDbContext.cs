@@ -3,9 +3,11 @@ using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Persistence;
 
+[ExcludeFromCodeCoverage]
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : IdentityDbContext<UserIdentity, UserRole, int>(options)
 {
@@ -51,15 +53,15 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             entity.HasQueryFilter(u => !u.isDeleted);
         } );
 
-        // Configure composite key for IdentityUserLogin<int>
+        // Configure the composite key for IdentityUserLogin<int>
         builder.Entity<IdentityUserLogin<int>>()
             .HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
-        // Configure composite key for IdentityUserRole<int>
+        // Configure the composite key for IdentityUserRole<int>
         builder.Entity<IdentityUserRole<int>>()
             .HasKey(r => new { r.UserId, r.RoleId });
 
-        // Configure composite key for IdentityUserToken<int>
+        // Configure the composite key for IdentityUserToken<int>
         builder.Entity<IdentityUserToken<int>>()
             .HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
     }

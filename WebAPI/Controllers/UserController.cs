@@ -1,4 +1,4 @@
-using System.Collections.Immutable;
+using System.Globalization;
 using Application.Interfaces;
 using Application.Models;
 using Infrastructure.Identity;
@@ -7,25 +7,24 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class UserController(IRegisterUsers registerUsers, UserManager<UserIdentity> userManager,
-    SignInManager<UserIdentity> signInManager) :
+    SignInManager<UserIdentity> signInManager, IAccessTokenService tokenService) :
     ControllerBase
 {
-    [HttpPost("signin")]
     [AllowAnonymous]
+    [HttpPost("sign-in")]
     public async Task<IActionResult> SignIn([FromBody] LoginModel model)
     {
         // 1. Find the user by email.
         var user = await userManager.FindByEmailAsync(model.Email);
         if (user == null)
         {
-            return Unauthorized("User does not exist");
+            return Unauthorized(new ResponseModel<string>("User non existent", null));
         }
 
         // 2. Validate credentials.
@@ -38,75 +37,87 @@ public class UserController(IRegisterUsers registerUsers, UserManager<UserIdenti
 
         if (!result.Succeeded)
         {
-            return Unauthorized("Invalid credentials");
+            return Unauthorized(new ResponseModel<string>("Invalid login credentials", null));
         }
 
-        // 3. Generate a JWT token for the authenticated user.
-        //var token = tokenService.GenerateToken(user);
+        var newTokens = await tokenService.GenerateTokens(user);
 
-        // 4. Return the token.
-        //return Ok(new { Token = token });
-        return Ok();
+        return Ok(
+            new ResponseModel<Dictionary<string, string?>>("Successfully sign in.",
+                newTokens));
     }
 
-    [HttpPost("register/employee")]
-    public async Task<IActionResult> CreateEmployeeAsync([FromBody] RegisterEmployeeModel model)
+    [HttpGet("sign-out/{userId}")]
+    public async Task<IActionResult> CustomSignOut(string userId)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var user = await userManager.FindByIdAsync(userId);
 
-        var result = await registerUsers.RegisterEmployeeAsync(model);
+        await Task.WhenAll(
+            userManager.RemoveAuthenticationTokenAsync(user!, "No Provider", "RefreshToken"),
+            signInManager.SignOutAsync());
 
-        return result.Succeeded ? BadRequest() : Ok("User registered successfully");
+        return Ok(new ResponseModel<string>("Successfully sign out.", null));
     }
 
     [AllowAnonymous]
-    [HttpPost("register/admin")]
-    public async Task<IActionResult> CreateAdminAsync([FromBody] RegisterAdminModel model)
+    [HttpGet("refresh/{userId}")]
+    public async Task<IActionResult> Refresh(string userId)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var user = await userManager.FindByIdAsync(userId);
 
-        var result = await registerUsers.RegisterAdminAsync(model);
+        if ( user is null) return Unauthorized(new ResponseModel<string>("User non existent", null));
 
-        return result.Succeeded ?
-            Ok($"User {model.Email} registered successfully")
-            : ValidationProblem(
-                extensions: new Dictionary<string, object?>
-                    {
-                        { "details", result.Errors.Select(e => e.Description).ToArray() }
-                    });
+        var refreshTokenExpiration = await userManager.GetAuthenticationTokenAsync(user, "No Provider", "RefreshToken");
+
+        if (DateTime.ParseExact(refreshTokenExpiration ?? "no token", "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) < DateTime.Now)
+        {
+            var tokens = new Dictionary<string, string?>
+            {
+                { "access_token", null },
+                { "refresh_token_expiration", null }
+            };
+            return Ok(
+                new ResponseModel<Dictionary<string, string?>>("Tokens expired. Please sign in again.",
+                    tokens));
+        }
+        var newTokens = await tokenService.GenerateTokens(user);
+
+        return Ok(
+            new ResponseModel<Dictionary<string, string?>>("New access and refresh tokens generated",
+                newTokens));
     }
 
-    [AllowAnonymous]
-    [HttpGet("allusers")]
+    [HttpGet("users")]
     public async Task<IActionResult> GetAllEmployeesAsync()
     {
-        var users = await userManager.Users.ToListAsync();
+        var users = await userManager.Users.ToArrayAsync();
 
         return Ok(users);
     }
 
-    [AllowAnonymous]
-    [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
-    [HttpGet("user/{userId:int}")]
-    public async Task<IActionResult> GetUserProfile(int userId)
+    [HttpGet("user/{userId}")]
+    public async Task<IActionResult> GetUserProfile(string userId)
     {
-        var user = await userManager.Users.AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == userId);
-        return Ok(user);
+        var user = await userManager.FindByIdAsync(userId);
+
+        return user is null
+            ? NotFound(new ResponseModel<UserIdentity>($"User {userId} not found", null))
+            : Ok(new ResponseModel<UserIdentity>($"User {userId} found", user));
     }
 
-    [AllowAnonymous]
-    [HttpGet("2user/{id:int}")]
-    public async Task<IActionResult> GetUser(int id, [FromServices] IMemoryCache cache)
-    {
-        string cacheKey = $"user_{id}";
-        if (cache.TryGetValue(cacheKey, out UserIdentity? user)) return Ok(user);
-
-        user = await userManager.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
-
-        var cacheOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
-        cache.Set(cacheKey, user, cacheOptions);
-        return Ok(user);
-    }
+    // [HttpPost("register/admin")]
+    // public async Task<IActionResult> CreateAdminAsync([FromBody] RegisterAdminModel model)
+    // {
+    //     if (!ModelState.IsValid) return BadRequest(ModelState);
+    //
+    //     var result = await registerUsers.RegisterAdminAsync(model);
+    //
+    //     return result.Succeeded
+    //         ? Ok(new ResponseModel<UserIdentity>($"User {model.Email} registered successfully", null))
+    //         : ValidationProblem(
+    //             extensions: new Dictionary<string, object?>
+    //             {
+    //                 { "details", result.Errors.Select(e => e.Description).ToArray() }
+    //             });
+    // }
 }

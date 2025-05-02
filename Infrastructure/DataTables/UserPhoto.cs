@@ -1,17 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Infrastructure.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.DataTables;
 
+[ExcludeFromCodeCoverage]
 public class UserPhoto
 {
     [Key]
-    public int Id { get; set; }
-    public required string FilePath { get; set; }
-    public DateTime UploadedAt { get; set; } = DateTime.Now;
+    public int Id { get; init; }
+    public required string FilePath { get; init; }
+    public DateTime UploadedAt { get; init; } = DateTime.Now;
 
-    public int UserId { get; set; }
+    public int UserId { get; init; }
     [ForeignKey("UserId")]
-    public virtual required UserIdentity User { get; set; }
+    public virtual required UserIdentity User { get; init; }
 }

@@ -1,9 +1,11 @@
 using System.Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Diagnostics.CodeAnalysis;
 
-namespace WebAPI;
+namespace WebAPI.Utils;
 
+[ExcludeFromCodeCoverage]
 public sealed class CustomHealthChecks(IConfiguration configuration) : IHealthCheck
 {
     private readonly string? _connectionString

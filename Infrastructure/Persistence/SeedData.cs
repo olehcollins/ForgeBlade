@@ -1,8 +1,10 @@
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Persistence;
 
+[ExcludeFromCodeCoverage]
 public static class SeedData
 {
     public static async Task SeedRolesAsync(RoleManager<UserRole> roleManager)

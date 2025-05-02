@@ -10,11 +10,10 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Extensions.Http;
-using WebAPI;
+using WebAPI.Utils;
 using WebAPI.HealthCheck;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 // Conditional configure the Host and Logging services based on the environment
 builder.Host.AddSerilogDocumentation(builder.Environment);
@@ -39,9 +38,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<UserIdentity, UserRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddJwtConfiguration(builder.Configuration);
 // Register your application services (from the Application layer) with their Infrastructure implementations
 builder.Services.AddScoped<IRegisterUsers, RegisterUsers>();
-//builder.Services.AddJwtConfiguration(builder.Configuration);
+builder.Services.AddScoped<IAccessTokenService, AccessTokenService>();
 // Automatically retry failed requests up to 3 times, with increasing delays.
 var retryPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
@@ -70,7 +70,7 @@ var app = builder.Build();
 // Middleware
 app.UseExceptionHandler(_ => { }); // Exception Handler
 app.UseHttpsRedirection(); // Enforce HTTPS early in the pipeline
-app.UseSerilogDocumentation(app.Environment); // Log every request/response first
+//app.UseSerilogDocumentation(app.Environment); // Log every request/response first
 app.UseSwaggerDocumentation(app.Environment); // Register Swagger documentation routes
 app.UseAuthentication();
 app.UseAuthorization();
@@ -79,5 +79,5 @@ app.UseStatusCodePages(); // Use status code pages; update empty API responses
 app.MapControllers();
 app.MapCustomHealthChecks("/health");
 
-// End of pipeline
-app.Run();
+// End of the pipeline
+await app.RunAsync();
