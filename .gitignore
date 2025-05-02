@@ -13,7 +13,6 @@ out/
 *.pdb
 *.log
 *.cache
-
 # User-specific files
 .vscode/
 .idea/
