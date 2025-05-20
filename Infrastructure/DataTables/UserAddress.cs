@@ -6,15 +6,21 @@ using System.Diagnostics.CodeAnalysis;
 namespace Infrastructure.DataTables;
 
 [ExcludeFromCodeCoverage]
-public class UserAddress
+public sealed class UserAddress
 {
     [Key]
     public required int Id { get; init; }
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
     public required string StreetName { get; init; }
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
     public required string PostalCode { get; init; }
-    public required string City { get; init; }
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
+    public required string County { get; init; }
 
     public int UserId { get; init; }
     [ForeignKey("UserId")]
-    public virtual required UserIdentity User { get; init; }
+    public required UserIdentity User { get; init; }
 }

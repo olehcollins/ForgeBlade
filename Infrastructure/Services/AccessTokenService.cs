@@ -17,9 +17,6 @@ public sealed class AccessTokenService (IConfiguration configuration, UserManage
 {
     public async Task<Dictionary<string, string?>> GenerateTokens(UserIdentity user)
     {
-        // Check if the user has a refresh token.
-        var refreshTokenExpiration = await userManager.GetAuthenticationTokenAsync(user, "No Provider", "RefreshToken");
-
         var jwtSecretKey = !string.IsNullOrEmpty(configuration["JWT:Key"])
             ? configuration["JWT:Key"]
             : throw new ConfigurationErrorsException("JWT:Key not found in configuration.");
@@ -30,13 +27,15 @@ public sealed class AccessTokenService (IConfiguration configuration, UserManage
             ? configuration["JWT:Audience"]
             : throw new ConfigurationErrorsException("JWT:Audience not found in configuration.");
 
+        var userRole = (await userManager.GetRolesAsync(user)).FirstOrDefault();
+
         // Define the token's claims.
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim("uid", user.Id.ToString()),
-            new Claim("role", "User"),
+            new Claim("role", userRole ?? throw new NullReferenceException("User role is null")),
             // Add additional claims as needed.
         };
 
@@ -53,19 +52,12 @@ public sealed class AccessTokenService (IConfiguration configuration, UserManage
             signingCredentials: credentials);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-        // Store the refresh token expiration in the database.
-        await userManager.SetAuthenticationTokenAsync(
-            user,
-            "No Provider",
-            "RefreshToken",
-            refreshTokenExpiration);
-
         // Return the tokens as a dictionary.
         return new Dictionary<string, string?>
         {
             {"user_id", user.Id.ToString()},
             { "access_token", accessToken },
-            { "refresh_token_expiration", refreshTokenExpiration },
+            { "token_expiration", DateTime.Now.AddMinutes(30).ToString("dd/MM/yyyy HH:mm:ss")},
         };
     }
 }

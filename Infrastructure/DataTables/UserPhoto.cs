@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Infrastructure.DataTables;
 
 [ExcludeFromCodeCoverage]
-public class UserPhoto
+public sealed class UserPhoto
 {
     [Key]
     public int Id { get; init; }
@@ -15,5 +15,5 @@ public class UserPhoto
 
     public int UserId { get; init; }
     [ForeignKey("UserId")]
-    public virtual required UserIdentity User { get; init; }
+    public required UserIdentity User { get; init; }
 }

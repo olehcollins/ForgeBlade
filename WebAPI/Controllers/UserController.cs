@@ -1,6 +1,5 @@
-using System.Globalization;
-using Application.Interfaces;
 using Application.Models;
+using Infrastructure.Commands;
 using Infrastructure.Identity;
 using Infrastructure.Queries;
 using Infrastructure.Services;
@@ -13,7 +12,7 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(IRegisterUsers registerUsers, UserManager<UserIdentity> userManager,
+public class UserController(UserManager<UserIdentity> userManager,
     SignInManager<UserIdentity> signInManager, IAccessTokenService tokenService, ISender mediatorSender) :
     ControllerBase
 {
@@ -61,32 +60,9 @@ public class UserController(IRegisterUsers registerUsers, UserManager<UserIdenti
     }
 
     [AllowAnonymous]
-    [HttpGet("refresh/{userId}")]
-    public async Task<IActionResult> Refresh(string userId)
-    {
-        var user = await userManager.FindByIdAsync(userId);
-
-        if ( user is null) return Unauthorized(new ResponseModel<string>("User non existent", null));
-
-        var refreshTokenExpiration = await userManager.GetAuthenticationTokenAsync(user, "No Provider", "RefreshToken");
-
-        if (refreshTokenExpiration is null || DateTime.ParseExact(refreshTokenExpiration, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) < DateTime.Now)
-        {
-            var tokens = new Dictionary<string, string?>
-            {
-                { "access_token", null },
-                { "refresh_token_expiration", null }
-            };
-            return Ok(
-                new ResponseModel<Dictionary<string, string?>>("Tokens expired. Please sign in again.",
-                    tokens));
-        }
-        var newTokens = await tokenService.GenerateTokens(user);
-
-        return Ok(
-            new ResponseModel<Dictionary<string, string?>>("New access and refresh tokens generated",
-                newTokens));
-    }
+    [HttpGet("confirm-email")]
+    public IActionResult ConfirmEmail()
+        => Ok(new ResponseModel<string>("Email confirmed", null));
 
     [HttpGet("all-users")]
     public async Task<IActionResult> GetAllEmployeesAsync()
@@ -95,6 +71,7 @@ public class UserController(IRegisterUsers registerUsers, UserManager<UserIdenti
             await mediatorSender.Send(new GetAllUsersQuery()))
         );
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("user/{userId}")]
     public async Task<IActionResult> GetUserById(string userId)
     {
@@ -115,20 +92,20 @@ public class UserController(IRegisterUsers registerUsers, UserManager<UserIdenti
             : Ok(new ResponseModel<UserIdentity>($"User {email} found", user));
     }
 
+    [Authorize(Roles = "Admin")]
+    [HttpPost("register/employee")]
+    public async Task<IActionResult> CreateEmployeeAsync([FromBody] RegisterEmployeeModel model)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
-    // [HttpPost("register/admin")]
-    // public async Task<IActionResult> CreateAdminAsync([FromBody] RegisterAdminModel model)
-    // {
-    //     if (!ModelState.IsValid) return BadRequest(ModelState);
-    //
-    //     var result = await registerUsers.RegisterAdminAsync(model);
-    //
-    //     return result.Succeeded
-    //         ? Ok(new ResponseModel<UserIdentity>($"User {model.Email} registered successfully", null))
-    //         : ValidationProblem(
-    //             extensions: new Dictionary<string, object?>
-    //             {
-    //                 { "details", result.Errors.Select(e => e.Description).ToArray() }
-    //             });
-    // }
+        var result = await mediatorSender.Send(new RegisterEmployeeCommand(model));
+
+        return result.Succeeded
+            ? Ok(new ResponseModel<string>($"User registered successfully", model.Email))
+            : ValidationProblem(
+                extensions: new Dictionary<string, object?>
+                {
+                    { "details", result.Errors.Select(e => e.Description).ToArray() }
+                });
+    }
 }

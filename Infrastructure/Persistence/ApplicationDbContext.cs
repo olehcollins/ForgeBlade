@@ -19,7 +19,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<UserRole>().ToTable("Roles");
+        builder.Entity<UserRole>(entity =>
+        {
+            entity.ToTable("Roles");
+            entity.Property(r => r.Name)
+                .HasColumnType("nvarchar(50)")
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.HasIndex(r => r.Name).IsUnique();
+        });
+
         builder.Entity<UserIdentity>(entity =>
         {
             entity.ToTable("Users");
@@ -39,16 +48,23 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .HasDefaultValue(false);
             // Ensure the Email property is required and unique.
             entity.Property(u => u.Email)
+                .HasColumnType("nvarchar(256)")
                 .IsRequired()
                 .HasMaxLength(256);
             entity.HasIndex(u => u.Email).IsUnique();
             // Ensure the PhoneNumber property is required and unique.
             entity.Property(u => u.PhoneNumber)
+                .HasColumnType("nvarchar(50)")
+                .HasMaxLength(50)
                 .IsRequired();
             entity.HasIndex(u => u.PhoneNumber).IsUnique();
             entity.Property(u => u.FirstName)
+                .HasColumnType("nvarchar(50)")
+                .HasMaxLength(50)
                 .IsRequired();
             entity.Property(u => u.LastName)
+                .HasColumnType("nvarchar(50)")
+                .HasMaxLength(50)
                 .IsRequired();
             entity.HasQueryFilter(u => !u.IsDeleted);
         } );

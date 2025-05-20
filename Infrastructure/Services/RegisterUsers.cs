@@ -29,7 +29,6 @@ public sealed class RegisterUsers(UserManager<UserIdentity> userManager) : IRegi
         if (result.Succeeded) result = await userManager.AddToRoleAsync(user, "Employee");
 
         // Debug-time Assertion
-        Debug.Assert(result is IdentityResult, "result is not of type IdentityResult");
         Debug.Assert(result != null, "result is null");
         return result;
     }
@@ -52,9 +51,7 @@ public sealed class RegisterUsers(UserManager<UserIdentity> userManager) : IRegi
         if (result.Succeeded) result = await userManager.AddToRoleAsync(user, "Admin");
 
         // Debug-time Assertion
-        Debug.Assert(result is IdentityResult, "result is not of type IdentityResult");
         Debug.Assert(result != null, "result is null");
-
         return result;
     }
 }

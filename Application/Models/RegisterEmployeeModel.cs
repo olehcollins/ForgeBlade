@@ -40,8 +40,16 @@ public sealed class RegisterEmployeeModel
     public DateTime DateOfBirth { get; set; }
 
     [Required(ErrorMessage = "Address is required.")]
-    [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters.")]
-    public string Address { get; set; } = string.Empty;
+    [StringLength(200, ErrorMessage = "Address cannot exceed 100 characters.")]
+    public string StreetName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "County is required.")]
+    [StringLength(200, ErrorMessage = "County cannot exceed 50 characters.")]
+    public string County { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "PostCode is required.")]
+    [StringLength(200, ErrorMessage = "PostCode cannot exceed 50 characters.")]
+    public string PostCode { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Gender is required.")]
     [RegularExpression(@"^(Male|Female)$", ErrorMessage = "Invalid sex. Allowed sexes: Male, Female.")]

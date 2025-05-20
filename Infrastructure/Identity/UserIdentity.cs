@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Infrastructure.DataTables;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.CodeAnalysis;
@@ -9,7 +11,11 @@ public sealed class UserIdentity : IdentityUser<int>
 {
     public required string FirstName { get; init; }
     public required string LastName { get; init; }
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
     public required string Sex { get; init; }
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
     public required string Ethnicity { get; init; }
     public int Age { get; init; }
     public DateTime DateOfBirth { get; init; }
