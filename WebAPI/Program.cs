@@ -4,17 +4,18 @@ using Infrastructure;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Extensions.Http;
-using WebAPI;
+using WebAPI.Utils;
 using WebAPI.HealthCheck;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Conditional configure the Host and Logging services based on the environment
+// Host and Logging services configured based on the environment
 builder.Host.AddSerilogDocumentation(builder.Environment);
 
 // Register your application services
@@ -33,13 +34,15 @@ builder.Services.AddApplication().AddInfrastructure();
 builder.Services.AddSwaggerDocumentation(); // Use the custom Swagger extension method
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-// Configure Identity with EF Core
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+// Identity with EF Core configurations
+builder.Services.AddIdentity<UserIdentity, UserRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-// Register your application services (from the Application layer) with their Infrastructure implementations
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddJwtConfiguration(builder.Configuration);
+
+builder.Services.AddScoped<IRegisterUsers, RegisterUsers>();
+builder.Services.AddScoped<IAccessTokenService, AccessTokenService>();
+builder.Services.AddTransient<IMiddleware, CustomReqAndResMiddleWare>();
 // Automatically retry failed requests up to 3 times, with increasing delays.
 var retryPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
@@ -54,14 +57,22 @@ var policyWrap = Policy.WrapAsync(retryPolicy, circuitBreakerPolicy);
 builder.Services.AddHttpClient("ResilientClient")
     .AddPolicyHandler(policyWrap);
 builder.Services.AddHealthChecks().AddCheck<CustomHealthChecks>("Custom Health Check");
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
+
 
 var app = builder.Build();
 
-
 // Middleware
 app.UseExceptionHandler(_ => { }); // Exception Handler
+app.UseHsts();
 app.UseHttpsRedirection(); // Enforce HTTPS early in the pipeline
+app.UseCustomReqAndResMiddleWare();
 app.UseSerilogDocumentation(app.Environment); // Log every request/response first
 app.UseSwaggerDocumentation(app.Environment); // Register Swagger documentation routes
 app.UseAuthentication();
@@ -70,11 +81,6 @@ app.UseStatusCodePages(); // Use status code pages; update empty API responses
 
 app.MapControllers();
 app.MapCustomHealthChecks("/health");
-// Minimal API endpoints
-app.MapGet("/getUser", () => Results.BadRequest());
-app.MapGet("/notFound", () => { throw new Exception("An exception occured"); });
-app.MapGet("/goodRequest", () => Results.Ok("This is a good request"));
 
-
-// End of pipeline
-app.Run();
+// End of the pipeline
+await app.RunAsync();
