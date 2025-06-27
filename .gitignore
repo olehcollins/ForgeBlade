@@ -1,32 +1,53 @@
-# Visual Studio files
-.vs/
-*.user
-*.suo
-
-# Visual Studio Code files
-.vscode/
-
-# Rider IDE files
-.idea/
-
-# Build results
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+# Build artifacts
 bin/
 obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.log
+*.cache
+# User-specific files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Published files
-publish/
-
-# NuGet Packages
+# NuGet packages
 *.nupkg
 packages/
-*.snupkg
+!packages/repositories.config
+project.lock.json
+global.json
 
-# Resharper
-*_Resharper.*
-*.DotSettings.user
+# .NET-specific generated files
+**/project.lock.json
+**/project.assets.json
+**/project.fragment.lock.json
+**/project.nuget.cache
 
-# Local user-specific files
-*.dbmdl
-*.dbproj.schemaview
+# Rider and JetBrains settings
+*.dotSettings.user
 
-server.sln.DotSettings.user
+# macOS-specific files
+.DS_Store
+
+# Windows-specific files
+Thumbs.db
+ehthumbs.db
+/server.sln
+/Infrastructure/Migrations/20250319153935_InitialCreate.cs
+/Infrastructure/Migrations/20250319153935_InitialCreate.Designer.cs
+/Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs
+/identifier.sqlite
+/Infrastructure/Migrations/20250320153745_InitialCreateFixed.cs
+/Infrastructure/Migrations/20250320153745_InitialCreateFixed.Designer.cs
+
