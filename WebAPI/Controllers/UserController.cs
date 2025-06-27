@@ -21,14 +21,12 @@ public class UserController(UserManager<UserIdentity> userManager,
     [HttpPost("sign-in")]
     public async Task<IActionResult> SignIn([FromBody] LoginModel model)
     {
-        // Find the user by email.
         var user = await userManager.FindByEmailAsync(model.Email);
         if (user == null)
         {
             return Unauthorized(new ResponseModel<string>("User non existent", null));
         }
 
-        // Validate credentials.
         var result = await signInManager.PasswordSignInAsync(
             model.Email,
             model.Password,
