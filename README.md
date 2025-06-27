@@ -1,2 +1,1 @@
-# WebAPI-template
-API with a global error handler and Serilog logger
+# WebAPI of a small business
