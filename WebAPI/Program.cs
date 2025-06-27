@@ -15,7 +15,7 @@ using WebAPI.HealthCheck;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Conditional configure the Host and Logging services based on the environment
+// Host and Logging services configured based on the environment
 builder.Host.AddSerilogDocumentation(builder.Environment);
 
 // Register your application services
@@ -34,14 +34,15 @@ builder.Services.AddApplication().AddInfrastructure();
 builder.Services.AddSwaggerDocumentation(); // Use the custom Swagger extension method
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-// Configure Identity with EF Core
+// Identity with EF Core configurations
 builder.Services.AddIdentity<UserIdentity, UserRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddJwtConfiguration(builder.Configuration);
-// Register your application services (from the Application layer) with their Infrastructure implementations
+
 builder.Services.AddScoped<IRegisterUsers, RegisterUsers>();
 builder.Services.AddScoped<IAccessTokenService, AccessTokenService>();
+builder.Services.AddTransient<IMiddleware, CustomReqAndResMiddleWare>();
 // Automatically retry failed requests up to 3 times, with increasing delays.
 var retryPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
@@ -69,7 +70,9 @@ var app = builder.Build();
 
 // Middleware
 app.UseExceptionHandler(_ => { }); // Exception Handler
+app.UseHsts();
 app.UseHttpsRedirection(); // Enforce HTTPS early in the pipeline
+app.UseCustomReqAndResMiddleWare();
 app.UseSerilogDocumentation(app.Environment); // Log every request/response first
 app.UseSwaggerDocumentation(app.Environment); // Register Swagger documentation routes
 app.UseAuthentication();

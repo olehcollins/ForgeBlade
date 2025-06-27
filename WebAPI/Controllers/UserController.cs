@@ -1,3 +1,4 @@
+using System.Globalization;
 using Application.Models;
 using Infrastructure.Commands;
 using Infrastructure.Identity;
@@ -70,6 +71,22 @@ public class UserController(UserManager<UserIdentity> userManager,
             $"Users found",
             await mediatorSender.Send(new GetAllUsersQuery()))
         );
+
+    [HttpGet("all-test-users")]
+    public async Task<IActionResult> GetAllTestUsersAsync(string? queryTerm, string? sortColumn, string? sortOrder, int? pageNumber , int? pageSize)
+    {
+        var data = await mediatorSender.Send(new FindAllTestUsersQuery(
+            queryTerm?.Trim(),
+            sortColumn?.Trim().ToLower(CultureInfo.InvariantCulture),
+            sortOrder?.Trim().ToLower(CultureInfo.InvariantCulture),
+            pageNumber is null || pageNumber.Value < 1 ? 1 : pageNumber.Value,
+            pageSize is null || pageSize.Value < 10 ? 10 : pageSize.Value));
+
+        return data.Length > 0
+            ? Ok(new ResponseModel<TestUser[]>(
+                $"Test users found", data))
+            : NoContent();
+    }
 
     [Authorize(Roles = "Admin")]
     [HttpGet("user/{userId}")]

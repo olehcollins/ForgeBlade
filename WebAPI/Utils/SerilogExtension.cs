@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace WebAPI.Utils;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Middle Not Part of Testing")]
 public static class SerilogExtension
 {
     public static IHostBuilder AddSerilogDocumentation(this IHostBuilder host,
@@ -42,7 +42,7 @@ public static class SerilogExtension
                     diagnosticContext.Set("RequestPath", httpContext.Request.Path);
                     diagnosticContext.Set("StatusCode", httpContext.Response.StatusCode);
                     diagnosticContext.Set("RequestQueryString", queryString);
-                    // You can add more items, but do be mindful of logging sensitive data
+                    // You can add more items but do be mindful of logging-sensitive data
                 };
             });
         return app;

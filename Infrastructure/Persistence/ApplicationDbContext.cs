@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.CodeAnalysis;
+using Infrastructure.Queries;
 
 namespace Infrastructure.Persistence;
 
@@ -14,6 +15,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<UserAddress> UserAddresses { get; set; }
     public DbSet<UserEmergencyContact> UserEmergencyContacts { get; set; }
     public DbSet<UserPhoto> UserPhotos { get; set; }
+    public DbSet<TestUser> TestUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -5,18 +5,16 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace WebAPI.Utils;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage (Justification = "Middle Not Part of Testing")]
 public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService)
     : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
-        httpContext.Response.StatusCode = exception switch
-        {
-            ApplicationException => StatusCodes.Status400BadRequest,
-            _ => StatusCodes.Status500InternalServerError
-        };
+        httpContext.Response.StatusCode = exception is ApplicationException
+            ? StatusCodes.Status400BadRequest
+            : StatusCodes.Status500InternalServerError;
 
         Log.Error(exception, exception.Message);
 
