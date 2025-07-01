@@ -32,7 +32,10 @@ jobs:
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-
+          
+      - name: Check installed SDKs
+        run: dotnet --list-sdks
+        
       - name: Restore
         run: dotnet restore ./server.sln
 
