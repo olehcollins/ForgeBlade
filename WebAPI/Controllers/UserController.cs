@@ -61,6 +61,7 @@ public class UserController(
         return Ok(new ResponseModel<string>("Successfully sign out.", null));
     }
 
+//
     [AllowAnonymous]
     [HttpGet("confirm-email")]
     public IActionResult ConfirmEmail()
