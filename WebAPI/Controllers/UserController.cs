@@ -13,8 +13,11 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(UserManager<UserIdentity> userManager,
-    SignInManager<UserIdentity> signInManager, IAccessTokenService tokenService, ISender mediatorSender) :
+public class UserController(
+    UserManager<UserIdentity> userManager,
+    SignInManager<UserIdentity> signInManager,
+    IAccessTokenService tokenService,
+    ISender mediatorSender) :
     ControllerBase
 {
     [AllowAnonymous]
@@ -32,7 +35,7 @@ public class UserController(UserManager<UserIdentity> userManager,
             model.Password,
             isPersistent: false,
             lockoutOnFailure: false
-            );
+        );
 
         if (!result.Succeeded)
         {
@@ -70,8 +73,9 @@ public class UserController(UserManager<UserIdentity> userManager,
             await mediatorSender.Send(new GetAllUsersQuery()))
         );
 
-    [HttpGet("all-test-users")]
-    public async Task<IActionResult> GetAllTestUsersAsync(string? queryTerm, string? sortColumn, string? sortOrder, int? pageNumber , int? pageSize)
+    [HttpGet("search-test-users")]
+    public async Task<IActionResult> SearchTestUsersAsync(string? queryTerm, string? sortColumn,
+        string? sortOrder, int? pageNumber, int? pageSize)
     {
         var data = await mediatorSender.Send(new FindAllTestUsersQuery(
             queryTerm?.Trim(),
