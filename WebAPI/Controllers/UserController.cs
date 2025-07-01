@@ -69,7 +69,7 @@ public class UserController(UserManager<UserIdentity> userManager,
             $"Users found",
             await mediatorSender.Send(new GetAllUsersQuery()))
         );
-
+//
     [HttpGet("search-test-users")]
     public async Task<IActionResult> SearchTestUsersAsync(string? queryTerm, string? sortColumn, string? sortOrder, int? pageNumber , int? pageSize)
     {
