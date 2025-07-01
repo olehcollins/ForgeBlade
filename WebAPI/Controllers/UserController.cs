@@ -70,7 +70,7 @@ public class UserController(UserManager<UserIdentity> userManager,
             await mediatorSender.Send(new GetAllUsersQuery()))
         );
 
-    [HttpGet("all-test-users")]
+    [HttpGet("search-users")]
     public async Task<IActionResult> GetAllTestUsersAsync(string? queryTerm, string? sortColumn, string? sortOrder, int? pageNumber , int? pageSize)
     {
         var data = await mediatorSender.Send(new FindAllTestUsersQuery(
