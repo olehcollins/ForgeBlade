@@ -28,6 +28,31 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+        
+      # Build and Push Docker Image
+      - name: Extract Docker image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/forgeblade
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          provenance: true
+          sbom: true
 
       # 🔑 Force runner to use correct dotnet path (especially important on Linux)
       - name: Use installed .NET SDK
@@ -56,7 +81,7 @@ jobs:
   # 2️⃣ Publish (only if tests passed on at least one matrix axis)
   publish:
     needs: build-and-test
-    if: ${{ needs.build-and-test.result == 'success' }}
+    if: ${{ needs.build-and-test.result == 'success' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -68,4 +93,43 @@ jobs:
       - name: Publish
         run: dotnet publish ./server.sln --configuration Release
 
+      # 3️⃣ Deploy to Elastic Beanstalk
+  deploy:
+    needs: publish
+    if: ${{ needs.publish.result == 'success' && github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install AWS CLI
+        run: |
+          pip install awscli --upgrade --user
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install EB CLI
+        run: |
+          pip install awsebcli --upgrade --user
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Initialise EB CLI
+        run: |
+          eb init forgeblade --platform docker --region ${{ secrets.AWS_REGION }}
+          eb use forgeblade-prod
+
+      - name: Deploy to Elastic Beanstalk
+        run: eb deploy --staged
   
