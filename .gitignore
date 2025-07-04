@@ -51,3 +51,8 @@ ehthumbs.db
 /Infrastructure/Migrations/20250320153745_InitialCreateFixed.cs
 /Infrastructure/Migrations/20250320153745_InitialCreateFixed.Designer.cs
 
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

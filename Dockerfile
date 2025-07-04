@@ -15,6 +15,9 @@ RUN dotnet publish WebAPI/WebAPI.csproj -c Release -o /app/out
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 
+# have Kestrel listen on port 80
+ENV ASPNETCORE_URLS=http://+:80
+
 # copy the published output
 COPY --from=build /app/out ./
 
