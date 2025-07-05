@@ -23,6 +23,7 @@ public static class SerilogExtension
         IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
+        {
             app.UseSerilogRequestLogging(options =>
             {
                 options.MessageTemplate
@@ -45,6 +46,7 @@ public static class SerilogExtension
                     // You can add more items but do be mindful of logging-sensitive data
                 };
             });
+        }
         return app;
     }
 }

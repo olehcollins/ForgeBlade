@@ -5,15 +5,16 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.DataTables;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of code testing")]
 public sealed class UserPhoto
 {
-    private const int StringLenght = 100;
+    private const int StringLength = 100;
+
     [Key]
     public int Id { get; init; }
-    [StringLength(StringLenght, ErrorMessage = "FilePath cannot exceed 200 characters.")]
+    [MaxLength(StringLength, ErrorMessage = "FilePath cannot exceed 200 characters.")]
     public required string FilePath { get; init; }
-    public DateTime UploadedAt { get; init; } = DateTime.Now;
+    public DateTimeOffset UploadedAt { get; init; } = DateTime.UtcNow;
 
     public int UserId { get; init; }
     [ForeignKey("UserId")]

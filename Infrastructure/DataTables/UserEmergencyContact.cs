@@ -5,21 +5,17 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.DataTables;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of code testing")]
 public sealed class UserEmergencyContact
 {
     [Key]
     public required int Id { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string FirstName { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string LastName { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string PhoneNumber { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string Relationship { get; init; }
 

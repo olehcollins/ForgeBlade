@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 
 namespace WebAPI.Utils;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Code not part of test coverage")]
 public static class SwaggerExtensions
 {
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
@@ -25,15 +25,12 @@ public static class SwaggerExtensions
     public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app,
         IHostEnvironment env)
     {
-        if (env.IsDevelopment())
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sandbox API");
-                c.RoutePrefix = string.Empty; // Make Swagger UI the root page
-            });
-        }
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sandbox API");
+            c.RoutePrefix = string.Empty; // Make Swagger UI the root page
+        });
         return app;
     }
 }

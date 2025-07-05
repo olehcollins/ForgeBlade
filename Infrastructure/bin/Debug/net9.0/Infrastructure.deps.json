@@ -8,16 +8,67 @@
     ".NETCoreApp,Version=v9.0": {
       "Infrastructure/1.0.0": {
         "dependencies": {
+          "AWSSDK.RDS": "4.0.4.1",
+          "Amazon.Lambda.APIGatewayEvents": "2.7.1",
+          "Amazon.Lambda.Core": "2.6.0",
+          "Amazon.Lambda.Serialization.SystemTextJson": "2.4.4",
           "Application": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.3",
           "Microsoft.EntityFrameworkCore.Design": "9.0.3",
           "Microsoft.EntityFrameworkCore.Sqlite": "9.0.3",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.3",
+          "Npgsql": "9.0.3",
           "System.Configuration.ConfigurationManager": "9.0.4",
           "System.IdentityModel.Tokens.Jwt": "8.0.1"
         },
         "runtime": {
           "Infrastructure.dll": {}
+        }
+      },
+      "Amazon.Lambda.APIGatewayEvents/2.7.1": {
+        "runtime": {
+          "lib/net8.0/Amazon.Lambda.APIGatewayEvents.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.2.0.0"
+          }
+        }
+      },
+      "Amazon.Lambda.Core/2.6.0": {
+        "runtime": {
+          "lib/net8.0/Amazon.Lambda.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Amazon.Lambda.Serialization.SystemTextJson/2.4.4": {
+        "dependencies": {
+          "Amazon.Lambda.Core": "2.6.0"
+        },
+        "runtime": {
+          "lib/net8.0/Amazon.Lambda.Serialization.SystemTextJson.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "AWSSDK.Core/4.0.0.14": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.14"
+          }
+        }
+      },
+      "AWSSDK.RDS/4.0.4.1": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.0.14"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.RDS.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.4.1"
+          }
         }
       },
       "FluentValidation/11.11.0": {
@@ -682,6 +733,17 @@
           }
         }
       },
+      "Npgsql/9.0.3": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Npgsql.dll": {
+            "assemblyVersion": "9.0.3.0",
+            "fileVersion": "9.0.3.0"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_e_sqlite3/2.1.10": {
         "dependencies": {
           "SQLitePCLRaw.lib.e_sqlite3": "2.1.10",
@@ -995,6 +1057,41 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Amazon.Lambda.APIGatewayEvents/2.7.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ORuKOBjquor/clDL5ogeUoKEHt/iRmaC673gFpNzpwF5VkJ7LRvQc4MYnkeIexnXEwdS7yTkM4eSu9wzORi/wg==",
+      "path": "amazon.lambda.apigatewayevents/2.7.1",
+      "hashPath": "amazon.lambda.apigatewayevents.2.7.1.nupkg.sha512"
+    },
+    "Amazon.Lambda.Core/2.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CX3wtadH3DAHf4buJrw9IHK6/tJ5KNePgTTfcBzewpA18sbUD/afpksfSF39ZGAfTBaQfYS9487Y6aLWcvcDRg==",
+      "path": "amazon.lambda.core/2.6.0",
+      "hashPath": "amazon.lambda.core.2.6.0.nupkg.sha512"
+    },
+    "Amazon.Lambda.Serialization.SystemTextJson/2.4.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iv/cvqFuZ3v3+NFDyof0IJZvU+4kdpzOe3pWSBwp9HB885I+D32WQxuid9V4GnvRynER9XnWMPaDmImX8qH5cA==",
+      "path": "amazon.lambda.serialization.systemtextjson/2.4.4",
+      "hashPath": "amazon.lambda.serialization.systemtextjson.2.4.4.nupkg.sha512"
+    },
+    "AWSSDK.Core/4.0.0.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GUCP2LozKSapBKvV/rZtnh2e9SFF/DO3e4Z+0UV7oo9LuVVa+0XDDUKMiC3Oz54FBq29K7s9OxegBQPIZbe4Yw==",
+      "path": "awssdk.core/4.0.0.14",
+      "hashPath": "awssdk.core.4.0.0.14.nupkg.sha512"
+    },
+    "AWSSDK.RDS/4.0.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4HNt1Fe2QytoZAV7RnaiwXUJ620P/qDXU0CKqpHdTKOFO9wVwFw3sykBsL/e+VfFUXXNoCCsHr9XU5nxNtFqTA==",
+      "path": "awssdk.rds/4.0.4.1",
+      "hashPath": "awssdk.rds.4.0.4.1.nupkg.sha512"
+    },
     "FluentValidation/11.11.0": {
       "type": "package",
       "serviceable": true,
@@ -1288,6 +1385,13 @@
       "sha512": "sha512-YqueG52R/Xej4VVbKuRIodjiAhV0HR/XVbLbNrJhCZnzjnSjgMJ/dCdV0akQQxavX6hp/LC6rqLGLcXeQYU7XA==",
       "path": "mono.texttemplating/3.0.0",
       "hashPath": "mono.texttemplating.3.0.0.nupkg.sha512"
+    },
+    "Npgsql/9.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tPvY61CxOAWxNsKLEBg+oR646X4Bc8UmyQ/tJszL/7mEmIXQnnBhVJZrZEEUv0Bstu0mEsHZD5At3EO8zQRAYw==",
+      "path": "npgsql/9.0.3",
+      "hashPath": "npgsql.9.0.3.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.10": {
       "type": "package",

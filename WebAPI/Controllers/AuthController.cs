@@ -39,7 +39,7 @@ public class AuthController(
             return Unauthorized(new ResponseModel<string>("Invalid login credentials", null));
         }
 
-        var newTokens = await tokenService.GenerateTokens(user);
+        var newTokens = await tokenService.GenerateTokensAsync(user);
 
         return Ok(
             new ResponseModel<Dictionary<string, string?>>("Successfully sign in.",

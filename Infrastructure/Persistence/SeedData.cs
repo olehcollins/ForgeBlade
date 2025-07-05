@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Persistence;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of testing")]
 public static class SeedData
 {
     public static async Task SeedRolesAsync(RoleManager<UserRole> roleManager)
@@ -16,9 +16,9 @@ public static class SeedData
             if (!await roleManager.RoleExistsAsync(role))
             {
                 await roleManager.CreateAsync(new UserRole { Name = role });
-                Console.WriteLine($"{role} created");
+                //Console.WriteLine($"{role} created");
             }
-            else Console.WriteLine($"{role} already exists");
+            //else Console.WriteLine($"{role} already exists");
         }
     }
 }

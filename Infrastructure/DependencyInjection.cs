@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace Infrastructure;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of code testing")]
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)

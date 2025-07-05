@@ -5,18 +5,15 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.DataTables;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of code testing")]
 public sealed class UserAddress
 {
     [Key]
     public required int Id { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string StreetName { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string PostalCode { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string County { get; init; }
 

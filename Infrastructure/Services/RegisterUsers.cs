@@ -3,7 +3,6 @@ using Application.Interfaces;
 using Application.Models;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
-using Infrastructure.Utility;
 
 namespace Infrastructure.Services;
 
@@ -18,7 +17,6 @@ public sealed class RegisterUsers(UserManager<UserIdentity> userManager) : IRegi
             FirstName = model.FirstName,
             LastName = model.LastName,
             PhoneNumber = model.PhoneNumber,
-            Age = IdentityHelpers.CalculateAge(model.DateOfBirth),
             DateOfBirth = model.DateOfBirth,
             Sex = model.Sex,
             Ethnicity = model.Ethnicity,
@@ -48,7 +46,10 @@ public sealed class RegisterUsers(UserManager<UserIdentity> userManager) : IRegi
 
         var result = await userManager.CreateAsync(user, model.Password);
 
-        if (result.Succeeded) result = await userManager.AddToRoleAsync(user, "Admin");
+        if (result.Succeeded)
+        {
+            result = await userManager.AddToRoleAsync(user, "Admin");
+        }
 
         // Debug-time Assertion
         Debug.Assert(result != null, "result is null");

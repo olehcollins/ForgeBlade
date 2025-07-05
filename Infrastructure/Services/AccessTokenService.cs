@@ -11,11 +11,11 @@ namespace Infrastructure.Services;
 
 public interface IAccessTokenService
 {
-    Task<Dictionary<string, string?>> GenerateTokens(UserIdentity user);
+    Task<Dictionary<string, string?>> GenerateTokensAsync(UserIdentity user);
 }
 public sealed class AccessTokenService (IConfiguration configuration, UserManager<UserIdentity> userManager) : IAccessTokenService
 {
-    public async Task<Dictionary<string, string?>> GenerateTokens(UserIdentity user)
+    public async Task<Dictionary<string, string?>> GenerateTokensAsync(UserIdentity user)
     {
         var jwtSecretKey = !string.IsNullOrEmpty(configuration["JWT:Key"])
             ? configuration["JWT:Key"]

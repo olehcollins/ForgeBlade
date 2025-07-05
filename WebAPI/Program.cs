@@ -32,11 +32,16 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddOpenApi();
 builder.Services.AddApplication().AddInfrastructure();
 builder.Services.AddSwaggerDocumentation(); // Use the custom Swagger extension method
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var awsDatabase = new RdsDbConnection(builder.Configuration);
+builder.Services.AddDbContext<PostgreSqlDbContext>(options => options.UseNpgsql(awsDatabase.GetConnectionString()));
+
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Identity with EF Core configurations
 builder.Services.AddIdentity<UserIdentity, UserRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddEntityFrameworkStores<PostgreSqlDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddJwtConfiguration(builder.Configuration);
 
@@ -81,5 +86,6 @@ app.UseCustomReqAndResMiddleWare();
 app.MapControllers();
 app.MapCustomHealthChecks("/health");
 
+await awsDatabase.ConnectToDbAsync();
 // End of the pipeline
 await app.RunAsync();

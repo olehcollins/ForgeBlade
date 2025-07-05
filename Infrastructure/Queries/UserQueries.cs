@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Infrastructure.Queries;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of code testing")]
 public sealed record GetUserByIdQuery(string UserId) : IRequest<UserIdentity?>;
 public sealed record GetUserByEmailQuery(string Email) : IRequest<UserIdentity?>;
 public sealed record GetAllUsersQuery : IRequest<UserIdentity[]>;

@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.7.1" />
+        <PackageReference Include="Amazon.Lambda.Core" Version="2.6.0" />
+        <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
+        <PackageReference Include="AWSSDK.RDS" Version="4.0.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
           <PrivateAssets>all</PrivateAssets>
@@ -14,12 +18,17 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+        <PackageReference Include="Npgsql" Version="9.0.3" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.4" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Utility\" />
     </ItemGroup>
 
 </Project>

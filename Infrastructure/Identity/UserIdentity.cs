@@ -6,27 +6,26 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Identity;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of code testing")]
 public sealed class UserIdentity : IdentityUser<int>
 {
+    private const double Year = 365.2425;
+
     public required string FirstName { get; init; }
     public required string LastName { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string Sex { get; init; }
-    [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string Ethnicity { get; init; }
-    public int Age { get; init; }
-    public DateTime DateOfBirth { get; init; }
-    public DateTime CreatedAt { get; } = DateTime.Now;
-    public DateTime LastModified { get; init; }
+    [NotMapped]
+    public int Age => (int)((DateTime.UtcNow - DateOfBirth).TotalDays / Year);
+    public DateTimeOffset DateOfBirth { get; init; }
+    public DateTimeOffset CreatedAt { get; init; } = DateTime.UtcNow;
+    public DateTimeOffset LastModified { get; init; }
 
     // Navigation properties
     public UserAddress? Address { get; init; }
     public ICollection<UserEmergencyContact>? EmergencyContacts { get; init; }
-    public UserPhoto? Photo { get; init; }
     // Soft delete flag
-    public bool IsDeleted { get; init; } = false;
-
+    public bool IsDeleted { get; init; }
 }

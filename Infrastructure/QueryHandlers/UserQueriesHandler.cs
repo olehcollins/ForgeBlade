@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.QueryHandlers;
 
-public class UserQueriesHandler(UserManager<UserIdentity> userManager, ApplicationDbContext dbContext) :
+public class UserQueriesHandler(UserManager<UserIdentity> userManager, PostgreSqlDbContext dbContext) :
     IRequestHandler<GetUserByIdQuery, UserIdentity?>,
     IRequestHandler<GetUserByEmailQuery, UserIdentity?>,
     IRequestHandler<GetAllUsersQuery, UserIdentity[]>,

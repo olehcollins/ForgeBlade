@@ -1,6 +1,5 @@
 using Infrastructure.Commands;
 using Infrastructure.Identity;
-using Infrastructure.Utility;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -19,7 +18,6 @@ public class UserCommandHandler(UserManager<UserIdentity> userManager) :
             FirstName = request.Model.FirstName,
             LastName = request.Model.LastName,
             PhoneNumber = request.Model.PhoneNumber,
-            Age = IdentityHelpers.CalculateAge(request.Model.DateOfBirth),
             DateOfBirth = request.Model.DateOfBirth,
             Sex = request.Model.Sex,
             Ethnicity = request.Model.Ethnicity,
@@ -27,11 +25,13 @@ public class UserCommandHandler(UserManager<UserIdentity> userManager) :
 
         var result = await userManager.CreateAsync(user, request.Model.Password);
 
-        if (result.Succeeded) result = await userManager.AddToRoleAsync(user, "Employee");
+        if (result.Succeeded)
+        {
+            result = await userManager.AddToRoleAsync(user, "Employee");
+        }
 
         return result;
     }
 
     public async Task<IdentityResult> Handle(AddUserToRoleCommand request, CancellationToken cancellationToken) => await userManager.AddToRoleAsync(request.User, request.Role);
-
 }
