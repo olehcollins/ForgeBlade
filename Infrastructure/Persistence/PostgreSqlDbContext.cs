@@ -48,7 +48,6 @@ public class PostgreSqlDbContext(DbContextOptions<PostgreSqlDbContext> options)
             entity.Property(u => u.Email)
                 .HasMaxLength(EmailMaxLenght)
                 .IsRequired();
-
             entity.HasIndex(u => u.Email).IsUnique();
             // Ensure the PhoneNumber property is required and unique.
             entity.Property(u => u.PhoneNumber)

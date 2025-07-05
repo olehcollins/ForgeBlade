@@ -13,6 +13,26 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class UserController(ISender mediatorSender) : ControllerBase
 {
+    [AllowAnonymous]
+    [HttpPost("create-user")]
+    public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await mediatorSender.Send(new CreateUserCommand(model));
+
+        return result.Succeeded
+            ? Ok(new ResponseModel<string>($"User created successfully", model.Email))
+            : ValidationProblem(
+                extensions: new Dictionary<string, object?>
+                {
+                    { "details", result.Errors.Select(e => e.Description).ToArray() }
+                });
+    }
+
     [Authorize(Roles = "Admin")]
     [HttpPost("register/employee")]
     public async Task<IActionResult> CreateEmployeeAsync([FromBody] RegisterEmployeeModel model)

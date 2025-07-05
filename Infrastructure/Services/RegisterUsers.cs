@@ -31,7 +31,7 @@ public sealed class RegisterUsers(UserManager<UserIdentity> userManager) : IRegi
         return result;
     }
 
-    public async Task<IdentityResult> RegisterAdminAsync(RegisterAdminModel model)
+    public async Task<IdentityResult> RegisterAdminAsync(CreateUserModel model)
     {
         var user = new UserIdentity
         {

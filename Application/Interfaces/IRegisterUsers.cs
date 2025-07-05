@@ -6,5 +6,5 @@ namespace Application.Interfaces;
 public interface IRegisterUsers
 {
     Task<IdentityResult> RegisterEmployeeAsync(RegisterEmployeeModel model);
-    Task<IdentityResult> RegisterAdminAsync(RegisterAdminModel model);
+    Task<IdentityResult> RegisterAdminAsync(CreateUserModel model);
 }

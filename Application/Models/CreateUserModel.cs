@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models;
 
-public sealed class RegisterAdminModel
+public sealed class CreateUserModel
 {
     [Required] [EmailAddress] public required string Email { get; set; }
 

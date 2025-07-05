@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Commands;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Not part of Code Test")]
 public sealed record RegisterEmployeeCommand(RegisterEmployeeModel Model) : IRequest<IdentityResult>;
+public sealed record CreateUserCommand(CreateUserModel Model) : IRequest<IdentityResult>;
 public sealed record AddUserToRoleCommand(UserIdentity User, string Role) : IRequest<IdentityResult>;
