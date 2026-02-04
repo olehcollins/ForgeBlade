@@ -1,35 +1,32 @@
 name: Main Workflow 🚀
 
 on:
-  push:
-    branches: [main]
   pull_request:
+    branches: [main]
+  push:
     branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
-# 1️⃣ Restore, Build & Test all in a matrix
+
 jobs:
   build-and-test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        dotnet-version: ['9.0.x']
+        dotnet-version: ["9.0.x"]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET ${{ matrix.dotnet-version }}
         id: setup
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      # 🔑 Force runner to use correct dotnet path (especially important on Linux)
       - name: Use installed .NET SDK
         run: |
           echo "DOTNET_ROOT=${{ steps.setup.outputs.dotnet-root }}" >> $GITHUB_ENV
@@ -39,10 +36,12 @@ jobs:
         run: dotnet --list-sdks
 
       - name: Cache NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Restore
         run: dotnet restore ./server.sln
@@ -53,19 +52,47 @@ jobs:
       - name: Run unit tests
         run: dotnet test ./server.sln --no-build --verbosity normal
 
-  # 2️⃣ Publish (only if tests passed on at least one matrix axis)
-  publish:
+  docker-build-and-push:
+    name: Build & push Docker image to ACR
     needs: build-and-test
-    if: ${{ needs.build-and-test.result == 'success' }}
     runs-on: ubuntu-latest
+
+    # Only run on merges/pushes to main (not PRs)
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.build-and-test.result == 'success' }}
+
+    permissions:
+      contents: read
+      id-token: write
+
+    env:
+      ACR_LOGIN_SERVER: fbdockerimages-h7fea3gbaeesercu.azurecr.io
+      ACR_NAME: fbdockerimages-h7fea3gbaeesercu
+      IMAGE_NAME: server
+      IMAGE_TAG: ${{ github.sha }}
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET 9.0.x
-        uses: actions/setup-dotnet@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
         with:
-          dotnet-version: '9.0.x'
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Publish
-        run: dotnet publish ./server.sln --configuration Release
+      - name: Login to Azure Container Registry
+        run: az acr login --name "${{ env.ACR_NAME }}"
 
-  
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
