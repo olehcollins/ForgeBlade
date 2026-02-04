@@ -42,7 +42,7 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.AddScoped<IRegisterUsers, RegisterUsers>();
 builder.Services.AddScoped<IAccessTokenService, AccessTokenService>();
-builder.Services.AddTransient<IMiddleware, CustomReqAndResMiddleWare>();
+builder.Services.AddScoped<CustomReqAndResMiddleWare>();
 // Automatically retry failed requests up to 3 times, with increasing delays.
 var retryPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
@@ -72,13 +72,12 @@ var app = builder.Build();
 app.UseExceptionHandler(_ => { }); // Exception Handler
 app.UseHsts();
 app.UseHttpsRedirection(); // Enforce HTTPS early in the pipeline
-app.UseCustomReqAndResMiddleWare();
 app.UseSerilogDocumentation(app.Environment); // Log every request/response first
 app.UseSwaggerDocumentation(app.Environment); // Register Swagger documentation routes
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStatusCodePages(); // Use status code pages; update empty API responses
-
+app.UseCustomReqAndResMiddleWare();
 app.MapControllers();
 app.MapCustomHealthChecks("/health");
 
