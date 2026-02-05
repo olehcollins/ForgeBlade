@@ -14,7 +14,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<UserAddress> UserAddresses { get; set; }
     public DbSet<UserEmergencyContact> UserEmergencyContacts { get; set; }
-    public DbSet<UserPhoto> UserPhotos { get; set; }
     public DbSet<TestUser> TestUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -41,10 +40,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             entity.HasMany(a => a.EmergencyContacts)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-            entity.HasOne(a => a.Photo)
-                .WithOne(u => u.User)
-                .HasForeignKey<UserPhoto>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
             entity.Property(u => u.IsDeleted)
                 .HasDefaultValue(false);
