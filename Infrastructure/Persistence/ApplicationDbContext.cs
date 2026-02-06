@@ -1,5 +1,6 @@
 
 using Infrastructure.Identity;
+using Infrastructure.DataTables;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
