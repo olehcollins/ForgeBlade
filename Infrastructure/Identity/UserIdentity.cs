@@ -24,6 +24,22 @@ public sealed class UserIdentity : IdentityUser<int>
     // Navigation properties
     public UserAddress? Address { get; init; }
     public ICollection<UserEmergencyContact>? EmergencyContacts { get; init; }
+    public UserPhoto? Photo { get; init; }
+
+    [NotMapped]
+    public int Age
+    {
+        get
+        {
+            var today = DateTime.Today;
+            var age = today.Year - DateOfBirth.Year;
+            if (DateOfBirth.Date > today.AddYears(-age))
+            {
+                age--;
+            }
+            return age;
+        }
+    }
     // Soft delete flag
     public bool IsDeleted { get; init; } = false;
 
