@@ -48,7 +48,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.build-and-test.result == 'success' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 
     env:
       ACR_LOGIN_SERVER: fbdockerimages-h7fea3gbaeesercu.azurecr.io
