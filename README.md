@@ -1,2 +1,2 @@
 # FORGE BLADE WEB API
-FORGE BLADE BUSINESS API
+A RESTful service for managing employee records, roles, and operational workflows.
