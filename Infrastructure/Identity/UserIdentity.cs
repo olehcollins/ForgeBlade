@@ -24,7 +24,6 @@ public sealed class UserIdentity : IdentityUser<int>
     // Navigation properties
     public UserAddress? Address { get; init; }
     public ICollection<UserEmergencyContact>? EmergencyContacts { get; init; }
-    public UserPhoto? Photo { get; init; }
 
     [NotMapped]
     public int Age
