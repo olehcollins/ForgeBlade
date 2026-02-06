@@ -62,26 +62,4 @@ public class UserController(ISender mediatorSender) : ControllerBase
             $"Users found",
             await mediatorSender.Send(new GetAllUsersQuery()))
         );
-
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpGet("search-test-users")]
-    public async Task<ActionResult<ResponseModel<TestUser[]>>> SearchTestUsersAsync(
-        string? queryTerm,
-        string? sortColumn,
-        string? sortOrder,
-        [FromQuery, Range(1, int.MaxValue)] int? pageNumber,
-        [FromQuery, Range(1, int.MaxValue)] int? pageSize)
-    {
-        var data = await mediatorSender.Send(new FindAllTestUsersQuery(
-            queryTerm?.Trim(),
-            sortColumn?.Trim().ToUpperInvariant(),
-            sortOrder?.Trim().ToUpperInvariant(),
-            pageNumber ?? 1,
-            pageSize ?? 10));
-
-        return data.Length > 0
-            ? Ok(new ResponseModel<TestUser[]>(
-                $"Test users found", data))
-            : NoContent();
-    }
 }

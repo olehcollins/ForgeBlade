@@ -4,7 +4,7 @@ namespace Application.Models;
 
 public sealed class RegisterAdminModel
 {
-    [Required] [EmailAddress] public required string Email { get; set; }
+    [Required][EmailAddress] public required string Email { get; set; }
 
     [Required]
     [RegularExpression("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", ErrorMessage = "Password must contain:at least 8 characters, at least 1 special characters, at least 1 number and up and down case characters.")]

@@ -17,7 +17,6 @@ public sealed class UserIdentity : IdentityUser<int>
     [Column(TypeName = "nvarchar(50)")]
     [MaxLength(50)]
     public required string Ethnicity { get; init; }
-    public int Age { get; init; }
     public DateTime DateOfBirth { get; init; }
     public DateTime CreatedAt { get; } = DateTime.Now;
     public DateTime LastModified { get; init; }
