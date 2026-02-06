@@ -17,7 +17,7 @@ public class AuthController(
 {
     [AllowAnonymous]
     [HttpPost("sign-in")]
-    [ProducesResponseType(typeof(ResponseModel<Dictionary<string,string?>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseModel<Dictionary<string, string?>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseModel<string>), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> SignIn([FromBody] LoginModel model)
     {

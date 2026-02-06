@@ -13,7 +13,7 @@ public interface IAccessTokenService
 {
     Task<Dictionary<string, string?>> GenerateTokens(UserIdentity user);
 }
-public sealed class AccessTokenService (IConfiguration configuration, UserManager<UserIdentity> userManager) : IAccessTokenService
+public sealed class AccessTokenService(IConfiguration configuration, UserManager<UserIdentity> userManager) : IAccessTokenService
 {
     public async Task<Dictionary<string, string?>> GenerateTokens(UserIdentity user)
     {

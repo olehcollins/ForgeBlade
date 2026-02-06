@@ -1,5 +1,4 @@
 using Application;
-using Application.Interfaces;
 using Infrastructure;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
@@ -40,7 +39,6 @@ builder.Services.AddIdentity<UserIdentity, UserRole>()
     .AddDefaultTokenProviders();
 builder.Services.AddJwtConfiguration(builder.Configuration);
 
-builder.Services.AddScoped<IRegisterUsers, RegisterUsers>();
 builder.Services.AddScoped<IAccessTokenService, AccessTokenService>();
 builder.Services.AddScoped<CustomReqAndResMiddleWare>();
 // Automatically retry failed requests up to 3 times, with increasing delays.
