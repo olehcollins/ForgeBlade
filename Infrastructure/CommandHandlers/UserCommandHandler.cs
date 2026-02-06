@@ -1,6 +1,5 @@
 using Infrastructure.Commands;
 using Infrastructure.Identity;
-using Infrastructure.Utility;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -19,7 +18,6 @@ public class UserCommandHandler(UserManager<UserIdentity> userManager) :
             FirstName = request.Model.FirstName,
             LastName = request.Model.LastName,
             PhoneNumber = request.Model.PhoneNumber,
-            Age = IdentityHelpers.CalculateAge(request.Model.DateOfBirth),
             DateOfBirth = request.Model.DateOfBirth,
             Sex = request.Model.Sex,
             Ethnicity = request.Model.Ethnicity,

@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace WebAPI.Utils;
 
-[ExcludeFromCodeCoverage (Justification = "Middle Not Part of Testing")]
+[ExcludeFromCodeCoverage(Justification = "Middle Not Part of Testing")]
 public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService)
     : IExceptionHandler
 {
