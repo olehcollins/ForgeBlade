@@ -34,7 +34,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         {
             entity.ToTable("Users");
             entity.HasOne(a => a.Address)
-                .WithOne(a  => a.User)
+                .WithOne(a => a.User)
                 .HasForeignKey<UserAddress>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
             entity.HasMany(a => a.EmergencyContacts)
